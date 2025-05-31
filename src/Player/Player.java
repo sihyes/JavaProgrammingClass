@@ -57,11 +57,6 @@ public abstract class Player implements Skill {
 		return chosen;
 	}
     
-    public void levelUp(){
-    }
-
-    public void addElementalBonus(){
-    }
 
     public boolean dash(){
     		double chance = 100*Math.random(); // 0.0~1.0 사이 값
@@ -76,5 +71,35 @@ public abstract class Player implements Skill {
 		String hpDisplay = (hp <= 0) ? "X" : String.valueOf(hp);
 		System.out.printf("%-4s[HP:"+hpDisplay+"|%d] (Lv. %d) \n",this.name,this.power, this.level);
 	}
+	
+	// NEW !! 공통 피해 계산 메소드
+	public void dealDamage(Player target, double ratio) {
+	    int damage = (int)(this.power * ratio);
+	    target.hp -= damage;
+	    System.out.println(target.name + "(이)가 " + name + "에게 " + damage + " 만큼의 피해를 입었습니다.");
+	}
+	
+	// NEW!! 공통 힐링 메소드 배율만 입력해주면 됨~
+	public void heal(double ratio) {
+	    int beforeHp = this.hp;
+	    this.setHp((int)(this.hp * ratio));
+	    int healAmount = this.hp - beforeHp;
+	    System.out.println(this.name + "(이)가 HP를 " + healAmount + " 만큼 회복했습니다.");
+	}
+	
+	public void checkLevelUp() {
+	    this.attackCount++;
+	    if (this.attackCount > 5 && this.level < 2) {
+	        this.setLevel(2);
+	        System.out.println(this.name + "의 레벨이 2로 상승했습니다!");
+	    }
+	}
+	
+	
+	
+	
+	
+	
+
 
 }

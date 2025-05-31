@@ -12,34 +12,25 @@ public class WATER extends Player {
 	public void healSkill() {
 		// TODO Auto-generated method stub
 		System.out.println(name +"(이)가 근두운을 소환하여 국지성 호우를 내립니다.");
-		int beforeHp = hp;
-		setHp((int)(hp * 1.1));
-		int healAmount = hp-beforeHp;
-		System.out.println(name+"(이)가 HP를"+healAmount+"만큼 회복했습니다.");
+		heal(1.2);
 	}
 
 
 	@Override
 	public void attackSkill(Player target) {
-		System.out.println(name +"(이)가 "+target.name+"에게 물대포를 시전합니다.");
-		if (target.dash()) return;
-		int beforeHp = target.hp;
-		target.hp -= (this.power * 1.15);
-		int attackAmount = beforeHp-target.hp;
-		System.out.println(target.name+"(이)가 "+name+"에게 "+attackAmount+" 만큼의 피해를 입었습니다.");
-		this.attackCount++;
-			if(attackCount > 5 && this.level <2)
-				this.setLevel(2);
+	    System.out.println(name + "(이)가 " + target.name + "에게 물대포를 시전합니다.");
+	    if (target.dash()) return;
+	    double multiplier = (target instanceof FIRE) ? 1.25 : 1;
+	    dealDamage(target, multiplier);
+	    checkLevelUp();
 	}
+
 	public void attackSkill(Player target, boolean isUltimate) {
-		int beforeHp = target.hp;
-		target.hp -= (this.power * 1.15);
-		int attackAmount = beforeHp-target.hp;
-		System.out.println(target.name+"(이)가 "+name+"에게 "+attackAmount+" 만큼의 피해를 입었습니다.");
-		this.attackCount++;
-			if(attackCount > 5 && this.level <2)
-				this.setLevel(2);
+	    double multiplier = (target instanceof FIRE) ? 1.25 : 1;
+	    dealDamage(target, multiplier);
+	    checkLevelUp();
 	}
+
 
 	@Override
     public void ultimateSkill(Player target) {
