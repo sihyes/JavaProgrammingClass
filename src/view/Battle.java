@@ -182,6 +182,7 @@ public class Battle extends JFrame {
         if (target == null) return;
 
         int prevHp = target.getHp();
+        int prevAttackerHp = attacker.getHp();
 
         if (attacker instanceof WATER) {
             attacker.attackSkill(target);
@@ -194,6 +195,10 @@ public class Battle extends JFrame {
         if (target.getHp() <= 0 && prevHp > 0) {
             System.out.println(target.name + " DIED!!!");
             handleDeath(target);
+        }
+        if (attacker.getHp() <= 0 && prevAttackerHp > 0) {
+            System.out.println(attacker.name + " DIED!!!");
+            handleDeath(attacker); //물대포 반사로 죽을 때 = 공격자가 죽을 수도 있으니 해당 로직을 추가함.
         }
 
         attacker.checkLevelUp();
