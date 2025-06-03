@@ -22,6 +22,7 @@ public class WATER extends Player {
 	    if (target.dash()) return;
 	    double multiplier = (target instanceof FIRE) ? 1.25 : 1;
 	    dealDamage(target, multiplier);
+	    attackCount++;
 	    checkLevelUp();
 	}
 

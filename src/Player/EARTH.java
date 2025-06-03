@@ -15,14 +15,14 @@ public class EARTH extends Player {
 	@Override
 	public void attackSkill(Player target) {
 	    System.out.println(name + "(이)가 " + target.name + "에게 땅울림을 시전합니다.");
-	    
+	    if (target.dash()) return; // 수정
 	    double multiplier = (target instanceof WATER) ? 1.25 : 1;
 	    dealDamage(target, multiplier);
 
 	    if (target instanceof WATER && target.getLevel() >= 2)
 	        target.ultimateSkill(this); // 물 타입이 2레벨 이상이면 항상 공격 반사
 	    
-
+	    attackCount++;
 	    checkLevelUp();
 	}
 

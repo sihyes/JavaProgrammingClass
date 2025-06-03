@@ -23,7 +23,8 @@ public class FIRE extends Player {
 
         double multiplier = (target instanceof EARTH) ? 1.25 : 1;
         dealDamage(target, multiplier);
-        checkLevelUp();
+        attackCount++;
+	    checkLevelUp();
     }
 
     @Override

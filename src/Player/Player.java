@@ -88,8 +88,7 @@ public abstract class Player implements Skill {
 	}
 	
 	public void checkLevelUp() {
-	    this.attackCount++;
-	    if (this.attackCount > 5 && this.level < 2) {
+	    if (this.attackCount >= 5 && this.level < 2) {
 	        this.setLevel(2);
 	        System.out.println(this.name + "의 레벨이 2로 상승했습니다!");
 	    }
