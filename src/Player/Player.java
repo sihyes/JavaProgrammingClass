@@ -81,6 +81,10 @@ public abstract class Player implements Skill {
 	
 	// NEW!! 공통 힐링 메소드 배율만 입력해주면 됨~
 	public void heal(double ratio) {
+		if(this.hp>=100) {
+            System.out.println(this.name + "의 HP가 이미 MAX인 상태예요!");
+            return;
+        }
 	    int beforeHp = this.hp;
 	    this.setHp((int)(this.hp * ratio));
 	    int healAmount = this.hp - beforeHp;

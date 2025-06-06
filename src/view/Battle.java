@@ -1,10 +1,8 @@
 package view;
 
-import java.awt.EventQueue;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.*;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
@@ -20,9 +18,7 @@ public class Battle extends JFrame {
     private JProgressBar hpBarFire;
     private JTextArea textArea_1;
 
-    private FIRE p1;
-    private WATER p2;
-    private EARTH p3;
+    private Player p1, p2, p3;
     private List<Player> players;
     private Random rand = new Random();
 
@@ -31,18 +27,7 @@ public class Battle extends JFrame {
     private JButton attackBtnFire, attackBtnWater, attackBtnEarth;
     private JButton healingBtnFire, healingBtnWater, healingBtnEarth;
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            try {
-                Battle frame = new Battle();
-                frame.setVisible(true); //창을 화면에 표시함
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    public Battle() throws UnsupportedEncodingException {
+    public Battle(Player p1, Player p2, Player p3) throws UnsupportedEncodingException {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1200, 900);
         contentPane = new JPanel();
@@ -50,9 +35,9 @@ public class Battle extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        p1 = new FIRE("엠버", 100, 20, 1);
-        p2 = new WATER("웨이드", 100, 15, 1);
-        p3 = new EARTH("클로드", 100, 15, 1);
+        this.p1 = p1;
+        this.p2 = p2;
+        this.p3 = p3;
 
         nameEarth = new JLabel(p3.name + " (Lv. " + p3.getLevel() + ")");
         nameEarth.setForeground(Color.WHITE);
@@ -224,19 +209,40 @@ public class Battle extends JFrame {
         return aliveTargets.get(rand.nextInt(aliveTargets.size()));
     }
 
-    private void updateHPBars() {
+
+    private void checkWinner() {
+        List<Player> alive = new ArrayList<>();
+        for (Player p : players) {
+            if (p.getHp() > 0) alive.add(p);
+        }
+
+        if (alive.size() == 1) {
+            System.out.println(alive.get(0).name + " win!!!");
+            disableButtons();
+        }
+    }
+
+    public JButton getAttackBtnFire() { return attackBtnFire; }
+    public JButton getAttackBtnWater() { return attackBtnWater; }
+    public JButton getAttackBtnEarth() { return attackBtnEarth; }
+
+    public JButton getHealBtnFire() { return healingBtnFire; }
+    public JButton getHealBtnWater() { return healingBtnWater; }
+    public JButton getHealBtnEarth() { return healingBtnEarth; }
+
+    public void updateHPBars() {
         hpBarFire.setValue(Math.max(p1.getHp(), 0));
         hpBarWater.setValue(Math.max(p2.getHp(), 0));
         hpBarEarth.setValue(Math.max(p3.getHp(), 0));
     }
 
-    private void updateLevelLabels() {
+    public void updateLevelLabels() {
         nameFire.setText(p1.name + " (Lv. " + p1.getLevel() + ")");
         nameWater.setText(p2.name + " (Lv. " + p2.getLevel() + ")");
         nameEarth.setText(p3.name + " (Lv. " + p3.getLevel() + ")");
     }
 
-    private void handleDeath(Player player) {
+    public void handleDeath(Player player) {
         if (player == p1) {
             photoFire.setIcon(new ImageIcon(Battle.class.getResource("/image/죽은엠버.png")));
             attackBtnFire.setEnabled(false);
@@ -252,23 +258,12 @@ public class Battle extends JFrame {
         }
     }
 
-    private void checkWinner() {
-        List<Player> alive = new ArrayList<>();
-        for (Player p : players) {
-            if (p.getHp() > 0) alive.add(p);
-        }
-
-        if (alive.size() == 1) {
-            System.out.println(alive.get(0).name + " win!!!");
-            disableButtons();
-        }
-    }
-
-    private void disableButtons() {
+    public void disableButtons() {
         for (Component comp : contentPane.getComponents()) {
             if (comp instanceof JButton) {
                 comp.setEnabled(false);
             }
         }
     }
+
 }
