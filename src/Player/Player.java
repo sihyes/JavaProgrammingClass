@@ -11,7 +11,7 @@ public abstract class Player implements Skill {
     protected int power;
     protected int level;
     protected int attackCount = 0;  // 공격 성공 카운트
-
+    final int MAX_HP = 100; 
     
 
     public Player(String name, int hp, int power, int level) {
@@ -86,8 +86,14 @@ public abstract class Player implements Skill {
             return;
         }
 	    int beforeHp = this.hp;
+	    int healAmount;
 	    this.setHp((int)(this.hp * ratio));
-	    int healAmount = this.hp - beforeHp;
+	    if(this.hp >= MAX_HP) { //최대 HP를 넘으면, 그 이상으로 회복 못하게 설정.
+	    	healAmount = MAX_HP - beforeHp;
+	    	this.hp = MAX_HP; 
+	    }
+	    else
+	    	healAmount = this.hp - beforeHp;
 	    System.out.println(this.name + "(이)가 HP를 " + healAmount + " 만큼 회복했습니다.");
 	}
 	
